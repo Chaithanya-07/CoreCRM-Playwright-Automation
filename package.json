@@ -1,0 +1,23 @@
+{
+  "name": "corecrm-playwright-automation",
+  "version": "1.0.0",
+  "description": "Playwright E2E automation suite for the Horilla CRM demo site",
+  "private": true,
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:chromium": "playwright test --project=chromium --project=chromium-login",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.1",
+    "dotenv": "^16.4.5"
+  }
+}

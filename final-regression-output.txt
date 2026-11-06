@@ -1,0 +1,24 @@
+
+Running 14 tests using 1 worker
+
+  ok  1 [setup] › tests\auth.setup.js:7:1 › login once and store the session (3.1s)
+  ok  2 [chromium-login] › tests\login.spec.js:8:5 › user can log in with valid credentials (3.7s)
+  ok  3 [chromium-login] › tests\login.spec.js:21:5 › user cannot log in with an invalid password (2.4s)
+  ok  4 [chromium] › tests\accounts.spec.js:9:5 › user should be able to create an account and find it again in the accounts list (7.7s)
+  ok  5 [chromium] › tests\accounts.spec.js:60:5 › the New Account form blocks submission when required fields are missing (3.3s)
+  ok  6 [chromium] › tests\activities.spec.js:17:5 › user should be able to create an activity and find it again with its association in the list (14.5s)
+  ok  7 [chromium] › tests\activities.spec.js:97:5 › the Create Activity form blocks submission when the required subject is missing (4.2s)
+  ok  8 [chromium] › tests\campaigns.spec.js:14:5 › user should be able to create a campaign and find it again in the campaigns list (5.7s)
+  ok  9 [chromium] › tests\campaigns.spec.js:103:5 › the Create Campaign form blocks submission when the required campaign name is missing (2.7s)
+  ok 10 [chromium] › tests\contacts.spec.js:11:5 › user should be able to create a contact and find it again in the contacts list (4.7s)
+  ok 11 [chromium] › tests\lead-conversion.spec.js:11:5 › converting a lead creates the account, contact and opportunity and marks the lead converted (10.5s)
+  ok 12 [chromium] › tests\leads.spec.js:12:5 › user should be able to create a lead and find it again in the leads list (6.6s)
+  ok 13 [chromium] › tests\opportunities.spec.js:14:5 › user should be able to create an opportunity and find it again in the opportunities list (5.9s)
+  ok 14 [chromium] › tests\opportunities.spec.js:90:5 › the New Opportunity form blocks submission when required fields are missing (3.7s)
+
+  14 passed (1.4m)
+
+real	1m23.216s
+user	0m0.060s
+sys	0m0.136s
+EXIT_CODE=0
