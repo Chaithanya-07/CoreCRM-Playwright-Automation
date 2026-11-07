@@ -28,22 +28,34 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       # External fork PRs run with a read-only token and no repository secrets,
-      # so the credentials arrive empty there. The suite is skipped with an
-      # explicit notice instead of a misleading failure. Secrets are never
-      # exposed to PR code: both projects of this workflow are "pull_request",
-      # which GitHub runs outside the trusted context, and no value is ever
-      # echoed or written anywhere by this step.
-      - name: Check demo credentials (skip cleanly on external fork PRs)
+      # so the credentials arrive empty there: the suite is skipped with an
+      # explicit notice instead of a misleading failure. Any other context
+      # (push to master, pull request from a branch of this repository) is
+      # expected to have the secrets configured — if they are missing there,
+      # the workflow fails loudly with an actionable error instead of running
+      # a silently skipped or misleading CI result. When both secrets are
+      # present the suite runs exactly as before.
+      # Secrets are never exposed to PR code: both projects of this workflow
+      # are "pull_request", which GitHub runs outside the trusted context, and
+      # no credential value is ever echoed, written to the output, or exposed
+      # by this step — it only checks PRESENCE. IS_FORK_PR is public event
+      # metadata (no secrets).
+      - name: Check demo credentials (fork PRs skip cleanly; missing on non-fork contexts fails)
         id: credentials
         env:
           CRM_USERNAME: ${{ secrets.CRM_USERNAME }}
           CRM_PASSWORD: ${{ secrets.CRM_PASSWORD }}
+          IS_FORK_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true }}
         run: |
           if [ -n "$CRM_USERNAME" ] && [ -n "$CRM_PASSWORD" ]; then
             echo "available=true" >> "$GITHUB_OUTPUT"
-          else
+          elif [ "$IS_FORK_PR" = "true" ]; then
             echo "::notice::CRM demo credentials are not available in this context (external fork pull request). The authenticated Chromium suite is skipped; nothing is exposed."
             echo "available=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::CRM_USERNAME and/or CRM_PASSWORD are not configured as repository secrets, and this run is not an external fork pull request (event: ${{ github.event_name }}). The authenticated Chromium suite cannot run. Configure both repository secrets (Settings > Secrets and variables > Actions) and re-run."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            exit 1
           fi
 
       - name: Run Playwright tests (Chromium only)
