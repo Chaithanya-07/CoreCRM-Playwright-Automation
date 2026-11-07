@@ -27,7 +27,27 @@ jobs:
       - name: Install Chromium browsers
         run: npx playwright install --with-deps chromium
 
+      # External fork PRs run with a read-only token and no repository secrets,
+      # so the credentials arrive empty there. The suite is skipped with an
+      # explicit notice instead of a misleading failure. Secrets are never
+      # exposed to PR code: both projects of this workflow are "pull_request",
+      # which GitHub runs outside the trusted context, and no value is ever
+      # echoed or written anywhere by this step.
+      - name: Check demo credentials (skip cleanly on external fork PRs)
+        id: credentials
+        env:
+          CRM_USERNAME: ${{ secrets.CRM_USERNAME }}
+          CRM_PASSWORD: ${{ secrets.CRM_PASSWORD }}
+        run: |
+          if [ -n "$CRM_USERNAME" ] && [ -n "$CRM_PASSWORD" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::CRM demo credentials are not available in this context (external fork pull request). The authenticated Chromium suite is skipped; nothing is exposed."
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run Playwright tests (Chromium only)
+        if: ${{ steps.credentials.outputs.available == 'true' }}
         env:
           CRM_USERNAME: ${{ secrets.CRM_USERNAME }}
           CRM_PASSWORD: ${{ secrets.CRM_PASSWORD }}

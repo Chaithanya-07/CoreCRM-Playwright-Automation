@@ -1,5 +1,7 @@
 # CoreCRM – E2E Automation Suite
 
+![Playwright Tests](https://github.com/Chaithanya-07/CoreCRM-Playwright-Automation/actions/workflows/playwright.yml/badge.svg?branch=master)
+
 CoreCRM is a [Playwright Test](https://playwright.dev) end-to-end QA automation
 portfolio project built with JavaScript and the Page Object Model (POM)
 pattern. It automates and validates workflows in the
