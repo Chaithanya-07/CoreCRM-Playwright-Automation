@@ -1,4 +1,4 @@
-# CoreCRM – Playwright Automation Suite
+# CoreCRM – E2E Automation Suite
 
 [![Playwright Tests](https://github.com/Chaithanya-07/CoreCRM-Playwright-Automation/actions/workflows/playwright.yml/badge.svg?branch=master)](https://github.com/Chaithanya-07/CoreCRM-Playwright-Automation/actions/workflows/playwright.yml)
 
